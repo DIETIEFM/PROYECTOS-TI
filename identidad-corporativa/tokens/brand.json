@@ -1,0 +1,83 @@
+{
+  "marca": "Excellence Freights",
+  "fuente": "Manual de Estilo EFM (Zurdo y Diestro)",
+  "color": {
+    "primaria": {
+      "azul": {
+        "hex": "#0C5B72",
+        "rgb": [13, 91, 114],
+        "cmyk": "C90 M50 Y36 K25",
+        "pantone": "643 C",
+        "vinilAvery": "Dark Teal 730",
+        "tonos": { "100": "#0C5B72", "80": "#3D7C8E", "60": "#6D9DAA", "40": "#9EBDC7", "20": "#CEDEE3" }
+      },
+      "amarillo": {
+        "hex": "#FCB64C",
+        "rgb": [252, 182, 76],
+        "cmyk": "C0 M32 Y80 K0",
+        "pantone": "136 C",
+        "vinilAvery": "Dark Yellow 250",
+        "tonos": { "100": "#FCB64C", "80": "#FDC570", "60": "#FDD394", "40": "#FEE2B7", "20": "#FEF0DB" }
+      }
+    },
+    "secundaria": {
+      "rojo": {
+        "hex": "#ED174F",
+        "rgb": [237, 23, 79],
+        "cmyk": "C0 M100 Y62 K0",
+        "pantone": "192 C",
+        "vinilAvery": "Hibiscus Red 405",
+        "tonos": { "100": "#ED174F", "80": "#F14572", "60": "#F47495", "40": "#F8A2B9", "20": "#FBD1DC" }
+      },
+      "gris": {
+        "hex": "#919698",
+        "rgb": [145, 150, 152],
+        "cmyk": "C40 M30 Y30 K10",
+        "pantone": "422 C",
+        "vinilAvery": "Light Ash Gray 825",
+        "tonos": { "100": "#919698", "80": "#A7ABAD", "60": "#BDC0C1", "40": "#D3D5D6", "20": "#E9EAEA" }
+      },
+      "turquesa": {
+        "hex": "#00ABCA",
+        "rgb": [0, 171, 202],
+        "cmyk": "C95 M2 Y20 K0",
+        "pantone": "3125 C",
+        "vinilAvery": "Peacock Blue 645",
+        "tonos": { "100": "#00ABCA", "80": "#33BCD5", "60": "#66CDDF", "40": "#99DDEA", "20": "#CCEEF4" }
+      }
+    },
+    "reglas": {
+      "dominante": "azul",
+      "secundarioPrincipal": "amarillo",
+      "secundariaMaxPorPieza": "10%"
+    }
+  },
+  "tipografia": {
+    "primaria": {
+      "familia": "Bw Modelica",
+      "disenador": "Alberto Romanos",
+      "pesos": ["Regular", "Bold"],
+      "fallback": ["Montserrat", "Helvetica Neue", "Arial", "sans-serif"]
+    },
+    "secundaria": {
+      "familia": "Acumin Variable Condensed",
+      "disenador": "Robert Slimbach",
+      "pesos": ["Condensed Extra Light", "Condensed Black"],
+      "fallback": ["Barlow Condensed", "Roboto Condensed", "Arial Narrow", "sans-serif"]
+    },
+    "jerarquia": {
+      "pieFoto":      { "familia": "primaria",   "tamano": "6pt",  "interlineado": "9pt" },
+      "texto":        { "familia": "primaria",   "tamano": "8pt",  "interlineado": "11pt" },
+      "texto2":       { "familia": "primaria",   "tamano": "9pt",  "interlineado": "11pt" },
+      "titular":      { "familia": "primaria",   "tamano": "10pt", "interlineado": "10pt", "mayusculas": true },
+      "subseccion":   { "familia": "primaria",   "tamano": "16pt", "interlineado": "16pt", "mayusculas": true },
+      "granTitular":  { "familia": "primaria",   "tamano": "34pt", "interlineado": "30pt", "mayusculas": true },
+      "acentoGrande": { "familia": "secundaria", "tamano": "36pt", "interlineado": "42pt", "mayusculas": true, "pesos": ["Light", "Black"] }
+    }
+  },
+  "logo": {
+    "versiones": ["full color (preferida)", "calada en blanco (fondos oscuros)", "monocromática azul o negro"],
+    "espacioLibre": "X = distancia de la base de 'Freights' a la base de 'Excellence', alrededor de todo el logo",
+    "tamanoMinimo": { "marcaCompleta": "30 mm x 16.33 mm", "simbolo": "5 mm x 5 mm" }
+  }
+}

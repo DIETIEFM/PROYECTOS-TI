@@ -1,0 +1,83 @@
+/*
+ * Excellence Freights — Tokens de identidad corporativa
+ * Fuente: Manual de Estilo EFM (Zurdo y Diestro)
+ *
+ * Uso: importar este archivo y usar las variables, p. ej.
+ *   @import "identidad-corporativa/tokens/brand.css";
+ *   .btn-primario { background: var(--ef-azul); color: var(--ef-blanco); }
+ */
+
+:root {
+  /* ---------- Paleta primaria (dominante) ---------- */
+  /* Azul — Pantone 643 C · CMYK C90 M50 Y36 K25 · Vinil Avery Dark Teal 730 */
+  --ef-azul: #0C5B72;
+  --ef-azul-80: #3D7C8E;
+  --ef-azul-60: #6D9DAA;
+  --ef-azul-40: #9EBDC7;
+  --ef-azul-20: #CEDEE3;
+
+  /* Amarillo — Pantone 136 C · CMYK C0 M32 Y80 K0 · Vinil Avery Dark Yellow 250 */
+  --ef-amarillo: #FCB64C;
+  --ef-amarillo-80: #FDC570;
+  --ef-amarillo-60: #FDD394;
+  --ef-amarillo-40: #FEE2B7;
+  --ef-amarillo-20: #FEF0DB;
+
+  /* ---------- Paleta secundaria (acentos, < 10 % de una pieza) ---------- */
+  /* Rojo — Pantone 192 C · CMYK C0 M100 Y62 K0 · Vinil Avery Hibiscus Red 405 */
+  --ef-rojo: #ED174F;
+  --ef-rojo-80: #F14572;
+  --ef-rojo-60: #F47495;
+  --ef-rojo-40: #F8A2B9;
+  --ef-rojo-20: #FBD1DC;
+
+  /* Gris — Pantone 422 C · CMYK C40 M30 Y30 K10 · Vinil Avery Light Ash Gray 825 */
+  --ef-gris: #919698;
+  --ef-gris-80: #A7ABAD;
+  --ef-gris-60: #BDC0C1;
+  --ef-gris-40: #D3D5D6;
+  --ef-gris-20: #E9EAEA;
+
+  /* Turquesa — Pantone 3125 C · CMYK C95 M2 Y20 K0 · Vinil Avery Peacock Blue 645 */
+  --ef-turquesa: #00ABCA;
+  --ef-turquesa-80: #33BCD5;
+  --ef-turquesa-60: #66CDDF;
+  --ef-turquesa-40: #99DDEA;
+  --ef-turquesa-20: #CCEEF4;
+
+  /* ---------- Neutros ---------- */
+  --ef-blanco: #FFFFFF;
+  --ef-negro: #000000;
+
+  /* ---------- Tipografía ---------- */
+  /* Primaria: BW Modelica (Regular / Bold) — textos y titulares */
+  --ef-font-primaria: "Bw Modelica", "BwModelica", "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  /* Secundaria: Acumin Variable Condensed (Extra Light / Black) — acentos */
+  --ef-font-secundaria: "Acumin Variable Concept", "Acumin Pro Condensed", "Barlow Condensed", "Roboto Condensed", "Arial Narrow", sans-serif;
+
+  /* Jerarquía tipográfica (manual en pt; equivalencias para impresión) */
+  --ef-pie-foto: 6pt;          /* BW Modelica · interlineado 9pt */
+  --ef-pie-foto-lh: 9pt;
+  --ef-texto: 8pt;             /* BW Modelica · interlineado 11pt */
+  --ef-texto-lh: 11pt;
+  --ef-texto-2: 9pt;           /* BW Modelica · interlineado 11pt */
+  --ef-texto-2-lh: 11pt;
+  --ef-titular: 10pt;          /* BW Modelica MAYÚSCULAS · interlineado 10pt */
+  --ef-titular-lh: 10pt;
+  --ef-subseccion: 16pt;       /* BW Modelica MAYÚSCULAS · interlineado 16pt */
+  --ef-subseccion-lh: 16pt;
+  --ef-gran-titular: 34pt;     /* BW Modelica MAYÚSCULAS · interlineado 30pt */
+  --ef-gran-titular-lh: 30pt;
+  --ef-acento-grande: 36pt;    /* Acumin Condensed Light + Black MAYÚSCULAS · interlineado 42pt */
+  --ef-acento-grande-lh: 42pt;
+}
+
+/* ---------- Clases utilitarias de jerarquía ---------- */
+.ef-pie-foto      { font-family: var(--ef-font-primaria); font-size: var(--ef-pie-foto); line-height: var(--ef-pie-foto-lh); }
+.ef-texto         { font-family: var(--ef-font-primaria); font-size: var(--ef-texto); line-height: var(--ef-texto-lh); }
+.ef-texto-2       { font-family: var(--ef-font-primaria); font-size: var(--ef-texto-2); line-height: var(--ef-texto-2-lh); }
+.ef-titular       { font-family: var(--ef-font-primaria); font-weight: 700; text-transform: uppercase; font-size: var(--ef-titular); line-height: var(--ef-titular-lh); }
+.ef-subseccion    { font-family: var(--ef-font-primaria); font-weight: 700; text-transform: uppercase; font-size: var(--ef-subseccion); line-height: var(--ef-subseccion-lh); color: var(--ef-amarillo); }
+.ef-gran-titular  { font-family: var(--ef-font-primaria); font-weight: 700; text-transform: uppercase; font-size: var(--ef-gran-titular); line-height: var(--ef-gran-titular-lh); color: var(--ef-azul); }
+.ef-acento-grande { font-family: var(--ef-font-secundaria); font-stretch: condensed; font-weight: 200; text-transform: uppercase; font-size: var(--ef-acento-grande); line-height: var(--ef-acento-grande-lh); }
+.ef-acento-grande strong { font-weight: 900; }
