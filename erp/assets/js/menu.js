@@ -71,6 +71,22 @@ const AREAS = [
       { nombre: "Usuarios y permisos", descripcion: "Accesos por área y por puesto." },
     ],
   },
+  {
+    id: "ti",
+    nombre: "TI",
+    descripcion: "Soporte técnico, equipos de cómputo y sistemas.",
+    icono: "monitor",
+    modulos: [
+      {
+        nombre: "Mesa de ayuda",
+        descripcion: "Reporta errores en sistemas, impresoras o equipos de cómputo.",
+        href: "mesa-de-ayuda/index.html",
+      },
+      { nombre: "Inventario de equipos", descripcion: "Computadoras, impresoras y su asignación." },
+      { nombre: "Usuarios y accesos", descripcion: "Altas, bajas y contraseñas de sistemas." },
+      { nombre: "Licencias y software", descripcion: "Control de licencias y vencimientos." },
+    ],
+  },
 ];
 
 const ICONOS = {
@@ -80,6 +96,7 @@ const ICONOS = {
   wrench: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/>',
   cart: '<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H6"/>',
   chart: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
+  monitor: '<rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
   menu: '<path d="M3 6h18M3 12h18M3 18h18"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
 };
@@ -116,8 +133,11 @@ function renderLayout() {
     </nav>
   `);
 
+  // Las páginas con contenido propio (p. ej. Mesa de ayuda) traen su <main> lleno.
   const main = document.querySelector("main");
-  main.innerHTML = area ? renderArea(area) : renderInicio(base);
+  if (!main.children.length) {
+    main.innerHTML = area ? renderArea(area, base) : renderInicio(base);
+  }
 
   const boton = document.querySelector(".boton-menu");
   boton.addEventListener("click", () => {
@@ -129,7 +149,8 @@ function renderLayout() {
     boton.setAttribute("aria-expanded", "false");
   });
 
-  document.title = `${area ? area.nombre + " · " : ""}ERP · Excellence Freights`;
+  const titulo = body.dataset.titulo || (area && area.nombre);
+  document.title = `${titulo ? titulo + " · " : ""}ERP · Excellence Freights`;
 }
 
 function renderInicio(base) {
@@ -148,8 +169,13 @@ function renderInicio(base) {
     <div class="rejilla">${tarjetas}</div>`;
 }
 
-function renderArea(area) {
-  const modulos = area.modulos.map((m) => `
+function renderArea(area, base) {
+  const modulos = area.modulos.map((m) => m.href ? `
+    <a class="tarjeta" href="${base}${area.id}/${m.href}">
+      <h2>${m.nombre}</h2>
+      <p>${m.descripcion}</p>
+      <span class="tarjeta-accion">Abrir ${icono("arrow")}</span>
+    </a>` : `
     <article class="tarjeta tarjeta-modulo">
       <h2>${m.nombre}</h2>
       <p>${m.descripcion}</p>

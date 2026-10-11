@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mesa de ayuda · ERP · Excellence Freights</title>
+  <link rel="icon" href="../../../identidad-corporativa/logos/excellence-freights-simbolo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;900&family=Montserrat:wght@400;700&display=swap">
+  <link rel="stylesheet" href="../../../identidad-corporativa/tokens/brand.css">
+  <link rel="stylesheet" href="../../assets/css/erp.css">
+  <link rel="stylesheet" href="../../assets/css/mesa-de-ayuda.css">
+</head>
+<body data-base="../../" data-area="ti" data-titulo="Mesa de ayuda">
+  <main>
+    <nav class="migas" aria-label="Ruta"><a href="../index.html">TI</a> / Mesa de ayuda</nav>
+    <p class="etiqueta">TI · Soporte técnico</p>
+    <h1>Mesa de ayuda</h1>
+    <p class="intro">Reporta aquí cualquier falla. El equipo de TI recibe tu reporte por correo con un número de folio para darle seguimiento.</p>
+
+    <form id="form-reporte" class="panel" novalidate>
+      <fieldset class="bloque">
+        <legend>1. ¿Qué tipo de problema tienes?</legend>
+        <div class="categorias">
+          <label class="categoria">
+            <input type="radio" name="categoria" value="sistema" required>
+            <span class="categoria-caja">
+              <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M7 12l2 2-2 2M12 16h4"/></svg>
+              <strong>Error en sistema</strong>
+              <small>ERP, correo, internet, programas</small>
+            </span>
+          </label>
+          <label class="categoria">
+            <input type="radio" name="categoria" value="impresora">
+            <span class="categoria-caja">
+              <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>
+              <strong>Error en impresora</strong>
+              <small>No imprime, atascos, tóner, escáner</small>
+            </span>
+          </label>
+          <label class="categoria">
+            <input type="radio" name="categoria" value="equipo">
+            <span class="categoria-caja">
+              <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              <strong>Falla en equipo de cómputo</strong>
+              <small>No enciende, lento, pantalla, teclado</small>
+            </span>
+          </label>
+        </div>
+        <p class="error" id="error-categoria" hidden>Elige el tipo de problema.</p>
+      </fieldset>
+
+      <fieldset class="bloque" id="bloque-detalle" disabled>
+        <legend>2. Detalle del problema</legend>
+        <div class="campos">
+          <label class="campo">
+            <span>Tipo de falla *</span>
+            <select name="tipo" required></select>
+          </label>
+          <label class="campo">
+            <span id="etiqueta-objeto">Sistema o equipo afectado *</span>
+            <input name="objeto" required autocomplete="off">
+          </label>
+          <label class="campo campo-ancho">
+            <span>Describe qué pasa *</span>
+            <textarea name="descripcion" rows="4" required placeholder="¿Qué estabas haciendo? ¿Qué mensaje de error aparece? ¿Desde cuándo pasa?"></textarea>
+          </label>
+          <fieldset class="campo campo-ancho prioridades">
+            <legend>¿Qué tanto te afecta? *</legend>
+            <label><input type="radio" name="prioridad" value="Baja" required> <span><strong>Baja</strong> · Puedo seguir trabajando</span></label>
+            <label><input type="radio" name="prioridad" value="Media"> <span><strong>Media</strong> · Me afecta parcialmente</span></label>
+            <label><input type="radio" name="prioridad" value="Alta"> <span><strong>Alta</strong> · No puedo trabajar</span></label>
+          </fieldset>
+        </div>
+      </fieldset>
+
+      <fieldset class="bloque" id="bloque-contacto" disabled>
+        <legend>3. Tus datos</legend>
+        <div class="campos">
+          <label class="campo">
+            <span>Nombre completo *</span>
+            <input name="nombre" required autocomplete="name">
+          </label>
+          <label class="campo">
+            <span>Área *</span>
+            <select name="area" required>
+              <option value="">Selecciona…</option>
+              <option>Operaciones</option>
+              <option>Finanzas</option>
+              <option>Mantenimiento</option>
+              <option>Compras</option>
+              <option>Gerencial</option>
+              <option>TI</option>
+              <option>Otra</option>
+            </select>
+          </label>
+          <label class="campo">
+            <span>Correo, teléfono o extensión *</span>
+            <input name="contacto" required>
+          </label>
+          <label class="campo">
+            <span>Ubicación</span>
+            <input name="ubicacion" placeholder="Oficina, piso o sucursal">
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="acciones">
+        <button class="boton boton-primario" type="submit">Enviar reporte</button>
+        <p class="nota">Se abrirá tu programa de correo con el reporte listo; solo da clic en <strong>Enviar</strong>.</p>
+      </div>
+    </form>
+
+    <section id="confirmacion" class="panel confirmacion" hidden tabindex="-1">
+      <p class="etiqueta">Reporte generado</p>
+      <h2>Folio <span id="conf-folio"></span></h2>
+      <p>Se abrió tu correo con el reporte dirigido a <strong id="conf-correo"></strong>. <strong>Revisa que se haya enviado.</strong> Si no se abrió, cópialo y mándalo por correo o por chat a TI.</p>
+      <div class="acciones">
+        <a class="boton boton-primario" id="conf-mailto" href="#">Abrir correo de nuevo</a>
+        <button class="boton" type="button" id="conf-copiar">Copiar reporte</button>
+        <button class="boton" type="button" id="conf-nuevo">Hacer otro reporte</button>
+      </div>
+      <pre id="conf-texto" class="reporte-texto"></pre>
+    </section>
+
+    <section class="historial">
+      <h2 class="ef-subseccion-titulo">Mis reportes en este equipo</h2>
+      <p class="nota" id="historial-vacio">Aún no has hecho reportes desde esta computadora.</p>
+      <div class="tabla-envoltura">
+        <table id="historial-tabla" hidden>
+          <thead><tr><th>Folio</th><th>Fecha</th><th>Tipo</th><th>Falla</th><th>Prioridad</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="../../assets/js/menu.js"></script>
+  <script src="../../assets/js/mesa-de-ayuda.js"></script>
+</body>
+</html>

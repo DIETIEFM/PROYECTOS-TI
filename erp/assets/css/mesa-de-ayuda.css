@@ -1,0 +1,165 @@
+/* Excellence Freights ERP — Mesa de ayuda */
+
+.migas { margin-bottom: 16px; font-size: 14px; color: var(--ef-gris); }
+.migas a { color: var(--ef-azul); font-weight: 700; text-decoration: none; }
+.migas a:hover { text-decoration: underline; }
+
+.panel {
+  background: var(--ef-blanco);
+  border: 1px solid var(--ef-gris-20);
+  border-top: 4px solid var(--ef-azul);
+  border-radius: 10px;
+  padding: 28px;
+  margin-bottom: 40px;
+}
+
+.bloque { border: 0; margin: 0 0 28px; padding: 0; min-width: 0; }
+.bloque:disabled { opacity: 0.45; }
+.bloque > legend {
+  padding: 0;
+  margin-bottom: 14px;
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: var(--ef-azul);
+}
+
+/* ---------- Categorías ---------- */
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+.categoria input { position: absolute; opacity: 0; pointer-events: none; }
+.categoria-caja {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 100%;
+  padding: 18px;
+  border: 2px solid var(--ef-gris-20);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.categoria-caja .icono { width: 30px; height: 30px; color: var(--ef-azul); margin-bottom: 6px; }
+.categoria-caja strong { color: var(--ef-azul); font-size: 15px; }
+.categoria-caja small { color: #5B6366; font-size: 13px; }
+.categoria-caja:hover { border-color: var(--ef-azul-40); }
+.categoria input:checked + .categoria-caja {
+  border-color: var(--ef-azul);
+  background: var(--ef-amarillo-20);
+  box-shadow: inset 4px 0 0 var(--ef-amarillo);
+}
+.categoria input:focus-visible + .categoria-caja { outline: 3px solid var(--ef-amarillo); outline-offset: 2px; }
+
+/* ---------- Campos ---------- */
+.campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+}
+.campo { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 700; color: #33434B; }
+.campo-ancho { grid-column: 1 / -1; }
+.campo input, .campo select, .campo textarea {
+  font: inherit;
+  font-weight: 400;
+  padding: 10px 12px;
+  border: 1px solid var(--ef-gris-60);
+  border-radius: 8px;
+  background: var(--ef-blanco);
+  color: #1F2A30;
+}
+.campo textarea { resize: vertical; }
+.campo input:focus, .campo select:focus, .campo textarea:focus {
+  outline: none;
+  border-color: var(--ef-azul);
+  box-shadow: 0 0 0 3px var(--ef-azul-20);
+}
+
+.prioridades { border: 0; padding: 0; margin: 0; }
+.prioridades legend { padding: 0; margin-bottom: 6px; }
+.prioridades label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 400;
+  padding: 6px 0;
+  cursor: pointer;
+}
+.prioridades input { accent-color: var(--ef-azul); width: 18px; height: 18px; }
+
+.error { color: var(--ef-rojo); font-size: 14px; font-weight: 700; margin: 10px 0 0; }
+
+/* ---------- Botones ---------- */
+.acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+.boton {
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 12px 22px;
+  border-radius: 8px;
+  border: 2px solid var(--ef-azul);
+  background: var(--ef-blanco);
+  color: var(--ef-azul);
+  cursor: pointer;
+  text-decoration: none;
+}
+.boton:hover { background: var(--ef-azul-20); }
+.boton-primario { background: var(--ef-azul); color: var(--ef-blanco); }
+.boton-primario:hover { background: var(--ef-azul-80); }
+.nota { margin: 0; font-size: 13px; color: #5B6366; }
+
+/* ---------- Confirmación ---------- */
+.confirmacion { border-top-color: var(--ef-amarillo); }
+.confirmacion:focus { outline: none; }
+.confirmacion h2 { margin: 4px 0 12px; font-size: 26px; text-transform: uppercase; color: var(--ef-azul); }
+.confirmacion > p { line-height: 1.5; }
+.reporte-texto {
+  margin: 20px 0 0;
+  padding: 16px;
+  background: #F5F7F8;
+  border-radius: 8px;
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---------- Historial ---------- */
+.ef-subseccion-titulo {
+  font-size: 18px;
+  text-transform: uppercase;
+  color: var(--ef-azul);
+  margin: 0 0 12px;
+}
+.tabla-envoltura { overflow-x: auto; }
+.historial table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--ef-blanco);
+  border: 1px solid var(--ef-gris-20);
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 14px;
+}
+.historial th {
+  text-align: left;
+  background: var(--ef-azul);
+  color: var(--ef-blanco);
+  padding: 10px 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.historial td { padding: 10px 14px; border-top: 1px solid var(--ef-gris-20); white-space: nowrap; }
+.prioridad { font-weight: 700; }
+.prioridad::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; }
+.prioridad-alta::before { background: var(--ef-rojo); }
+.prioridad-media::before { background: var(--ef-amarillo); }
+.prioridad-baja::before { background: var(--ef-azul-40); }
+
+@media (max-width: 800px) {
+  .panel { padding: 20px 16px; }
+  .campos { grid-template-columns: 1fr; }
+  .acciones .boton { flex: 1 1 100%; text-align: center; }
+}

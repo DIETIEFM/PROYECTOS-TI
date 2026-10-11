@@ -93,6 +93,7 @@ main {
   padding: 40px 48px;
   max-width: 1200px;
   width: 100%;
+  min-width: 0;
 }
 .etiqueta {
   margin: 0;
