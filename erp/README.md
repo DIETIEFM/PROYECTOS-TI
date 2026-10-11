@@ -2,16 +2,26 @@
 
 Primer proyecto del repositorio: sitio web que funciona como menú de entrada al ERP, con las áreas **Operaciones, Finanzas, Mantenimiento, Compras y Gerencial**.
 
-## Cómo verlo
+## Cómo verlo en tu computadora
 
-Es HTML, CSS y JavaScript puro, sin dependencias ni compilación. Desde la raíz del repositorio:
+No necesitas instalar nada: es HTML, CSS y JavaScript puro.
+
+1. **Descarga el proyecto.** En GitHub abre el repositorio `DIETIEFM/PROYECTOS-TI` y selecciona la rama donde está el ERP en el selector de ramas (arriba a la izquierda). Luego da clic en el botón verde **`<> Code`** → **Download ZIP**.
+2. **Descomprime el ZIP.** En el Explorador de archivos, clic derecho sobre el ZIP → **Extraer todo…** → **Extraer**.
+3. **Abre la página.** Dentro de la carpeta extraída entra a `erp` y da **doble clic en `index.html`**. Se abre en tu navegador (Chrome, Edge, etc.).
+
+> No muevas `index.html` ni la carpeta `erp` fuera del proyecto: la página toma los logos y colores de la carpeta `identidad-corporativa`, que está al mismo nivel.
+
+Las fuentes de respaldo (Montserrat y Barlow Condensed) se descargan de Google Fonts. Sin internet, la página igual funciona pero con la letra estándar del sistema.
+
+### Opción para desarrolladores (servidor local)
+
+Si tienes Python instalado, desde la carpeta raíz del proyecto (la que contiene `erp` e `identidad-corporativa`):
 
 ```bash
 python3 -m http.server 8000
 # abrir http://localhost:8000/erp/
 ```
-
-> Sírvelo desde la **raíz del repo** (no desde `erp/`), porque usa los logos y tokens de `identidad-corporativa/`.
 
 ## Estructura
 
