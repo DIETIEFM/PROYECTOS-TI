@@ -12,3 +12,9 @@ Toda interfaz, reporte, documento o presentación debe seguir la guía en `ident
 - **Logo:** full color sobre fondo claro; versión calada en blanco sobre fondo oscuro o azul. Respeta el espacio libre y no deformes, recolorees ni agregues efectos.
 - **Reutiliza los tokens** en lugar de escribir HEX sueltos: `identidad-corporativa/tokens/brand.css` (variables `--ef-*`), `tokens/tailwind.preset.js` (clases `ef-*`) o `tokens/brand.json`.
 - Logos en `identidad-corporativa/logos/`.
+
+## Control de acceso y datos sensibles
+
+- Toda página nueva del ERP debe cargar `usuarios.js`, `auth.js` y `menu.js` (en ese orden) para quedar protegida por el inicio de sesión. Declara su área con `data-area`, o usa `data-acceso="todos"` si es para todos los usuarios.
+- Nunca subas al repositorio contraseñas en texto ni los Excel de usuarios (`*.xlsx` está en `.gitignore`). Los usuarios se generan con `herramientas/generar_usuarios.py`.
+- El control de acceso actual es un prototipo del lado del navegador; no lo presentes como seguridad real.

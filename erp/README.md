@@ -8,7 +8,7 @@ No necesitas instalar nada: es HTML, CSS y JavaScript puro.
 
 1. **Descarga el proyecto.** En GitHub abre el repositorio `DIETIEFM/PROYECTOS-TI` y selecciona la rama donde está el ERP en el selector de ramas (arriba a la izquierda). Luego da clic en el botón verde **`<> Code`** → **Download ZIP**.
 2. **Descomprime el ZIP.** En el Explorador de archivos, clic derecho sobre el ZIP → **Extraer todo…** → **Extraer**.
-3. **Abre la página.** Dentro de la carpeta extraída entra a `erp` y da **doble clic en `index.html`**. Se abre en tu navegador (Chrome, Edge, etc.).
+3. **Abre la página.** Dentro de la carpeta extraída entra a `erp` y da **doble clic en `index.html`**. Se abre en tu navegador (Chrome, Edge, etc.) y te pide usuario y contraseña.
 
 > No muevas `index.html` ni la carpeta `erp` fuera del proyecto: la página toma los logos y colores de la carpeta `identidad-corporativa`, que está al mismo nivel.
 
@@ -23,21 +23,44 @@ python3 -m http.server 8000
 # abrir http://localhost:8000/erp/
 ```
 
+## Control de acceso
+
+Al abrir cualquier página del ERP se pide **usuario y contraseña** (`erp/login.html`).
+
+- **Primer acceso:** el usuario entra con la contraseña temporal que le dio TI y el sistema lo obliga a cambiarla antes de continuar. La nueva debe tener al menos 8 caracteres, una letra y un número.
+- **Permisos:** cada usuario ve solo el área asignada en el Excel. Los usuarios de **TI son administradores**: ven todas las áreas y la pantalla *TI → Usuarios y accesos*. La **Mesa de ayuda** está disponible para todos.
+- **Seguridad:** tras 5 intentos fallidos el usuario se bloquea 5 minutos. La sesión se cierra sola después de 30 minutos sin actividad o con el botón **Salir**. Cualquier usuario puede cambiar su contraseña desde el botón **Contraseña** del encabezado.
+- **Usuarios:** salen del Excel de control de acceso (columnas `Modulo`, `Usuario`, `Password`). Para actualizarlos:
+
+  ```bash
+  python3 herramientas/generar_usuarios.py ruta/usuarios.xlsx
+  ```
+
+  Esto regenera `erp/assets/js/usuarios.js` con las contraseñas cifradas (PBKDF2-SHA256), nunca en texto. **El Excel no se sube al repositorio** (`.gitignore` lo excluye).
+
+> **Importante: es una versión de prueba sin servidor.** Todo se valida en el navegador, así que sirve para definir y probar el flujo, pero no protege información real: quien tenga los archivos puede saltarse el acceso. Además, la contraseña nueva solo queda guardada en el navegador donde se cambió (en otra computadora sigue funcionando la temporal). Para uso real hace falta un servidor con base de datos; las funciones de `assets/js/auth.js` están separadas para reemplazarlas en ese momento.
+
 ## Estructura
 
 ```
 erp/
-├── index.html              Inicio: tarjetas de las 6 áreas
+├── login.html              Inicio de sesión
+├── cambiar-contrasena.html Cambio de contraseña (obligatorio en el primer acceso)
+├── index.html              Inicio: tarjetas de las áreas permitidas
 ├── operaciones/index.html  Página de cada área (lista de módulos)
 ├── finanzas/index.html
 ├── mantenimiento/index.html
 ├── compras/index.html
 ├── gerencial/index.html
 ├── ti/index.html
-├── ti/mesa-de-ayuda/       Mesa de ayuda (primer módulo funcional)
+├── ti/mesa-de-ayuda/       Mesa de ayuda (disponible para todos)
+├── ti/usuarios/            Usuarios y accesos (solo TI)
 └── assets/
     ├── css/erp.css         Estilos (usa variables --ef-* de la identidad corporativa)
     ├── css/mesa-de-ayuda.css
+    ├── css/acceso.css      Pantallas de inicio de sesión y contraseña
+    ├── js/usuarios.js      Usuarios con contraseñas cifradas (generado desde el Excel)
+    ├── js/auth.js          Control de acceso: sesión, contraseñas y permisos
     ├── js/menu.js          Configuración del menú (AREAS) y generación de páginas
     └── js/mesa-de-ayuda.js Formulario de reportes
 ```

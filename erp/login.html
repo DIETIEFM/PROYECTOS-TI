@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iniciar sesión · ERP · Excellence Freights</title>
+  <link rel="icon" href="../identidad-corporativa/logos/excellence-freights-simbolo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;900&family=Montserrat:wght@400;700&display=swap">
+  <link rel="stylesheet" href="../identidad-corporativa/tokens/brand.css">
+  <link rel="stylesheet" href="assets/css/acceso.css">
+</head>
+<body class="acceso">
+  <div class="acceso-marca">
+    <img src="../identidad-corporativa/logos/excellence-freights-logo-negativo.png" alt="Excellence Freights">
+    <span>ERP</span>
+  </div>
+  <main class="acceso-tarjeta">
+    <p class="etiqueta">Bienvenido</p>
+    <h1>Iniciar sesión</h1>
+    <form id="form-login" novalidate>
+      <label class="campo">
+        <span>Usuario</span>
+        <input name="usuario" autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus>
+      </label>
+      <label class="campo">
+        <span>Contraseña</span>
+        <input name="password" type="password" autocomplete="current-password" required>
+      </label>
+      <p class="error" id="error" role="alert" hidden></p>
+      <button class="boton" type="submit">Entrar</button>
+    </form>
+    <p class="nota">¿Olvidaste tu contraseña? Pide a TI que la restablezca.</p>
+    <p class="aviso">Versión de prueba: el acceso todavía no está conectado a un servidor.</p>
+  </main>
+  <script src="assets/js/usuarios.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    if (AUTH.obtenerSesion()) location.replace("index.html");
+    const form = document.getElementById("form-login");
+    const error = document.getElementById("error");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const { usuario, password } = form.elements;
+      if (!usuario.value.trim() || !password.value) {
+        error.textContent = "Escribe tu usuario y contraseña.";
+        error.hidden = false;
+        return;
+      }
+      const boton = form.querySelector("button");
+      boton.disabled = true;
+      boton.textContent = "Verificando…";
+      const r = await AUTH.iniciarSesion(usuario.value, password.value);
+      if (r.ok) {
+        location.replace(r.debeCambiar ? "cambiar-contrasena.html" : "index.html");
+        return;
+      }
+      error.textContent = r.error;
+      error.hidden = false;
+      password.value = "";
+      password.focus();
+      boton.disabled = false;
+      boton.textContent = "Entrar";
+    });
+  </script>
+</body>
+</html>

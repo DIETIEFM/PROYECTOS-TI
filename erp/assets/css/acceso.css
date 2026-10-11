@@ -1,0 +1,122 @@
+/* Excellence Freights ERP — inicio de sesión y cambio de contraseña */
+
+* { box-sizing: border-box; }
+
+body.acceso {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 32px 16px;
+  font-family: var(--ef-font-primaria);
+  color: #1F2A30;
+  background: var(--ef-azul);
+}
+
+.acceso-marca { display: flex; align-items: center; gap: 16px; }
+.acceso-marca img { height: 48px; display: block; }
+.acceso-marca span {
+  font-family: var(--ef-font-secundaria);
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: 0.08em;
+  color: var(--ef-amarillo);
+  border-left: 1px solid var(--ef-azul-60);
+  padding-left: 16px;
+}
+
+.acceso-tarjeta {
+  width: 100%;
+  max-width: 420px;
+  background: var(--ef-blanco);
+  border-top: 4px solid var(--ef-amarillo);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.etiqueta {
+  margin: 0;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ef-amarillo);
+}
+h1 {
+  margin: 4px 0 20px;
+  font-size: 28px;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--ef-azul);
+}
+.intro { margin: -8px 0 20px; font-size: 14px; line-height: 1.5; color: #4A5A62; }
+
+form { display: flex; flex-direction: column; gap: 16px; }
+.campo { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 700; color: #33434B; }
+.campo input {
+  font: inherit;
+  font-weight: 400;
+  font-size: 16px;
+  padding: 11px 12px;
+  border: 1px solid var(--ef-gris-60);
+  border-radius: 8px;
+}
+.campo input:focus { outline: none; border-color: var(--ef-azul); box-shadow: 0 0 0 3px var(--ef-azul-20); }
+
+.requisitos { list-style: none; margin: -6px 0 0; padding: 0; font-size: 13px; color: #5B6366; }
+.requisitos li { padding: 2px 0 2px 22px; position: relative; }
+.requisitos li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 7px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--ef-gris-60);
+}
+.requisitos li.cumple { color: var(--ef-azul); font-weight: 700; }
+.requisitos li.cumple::before { background: var(--ef-azul); border-color: var(--ef-azul); }
+
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--ef-rojo-20);
+  border-left: 4px solid var(--ef-rojo);
+  color: #1F2A30;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.boton {
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 13px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--ef-azul);
+  color: var(--ef-blanco);
+  cursor: pointer;
+}
+.boton:hover { background: var(--ef-azul-80); }
+.boton:disabled { opacity: 0.7; cursor: wait; }
+.enlace { text-align: center; color: var(--ef-azul); font-weight: 700; font-size: 14px; }
+
+.nota { margin: 20px 0 0; font-size: 13px; color: #5B6366; text-align: center; }
+.aviso {
+  margin: 16px 0 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--ef-amarillo-20);
+  font-size: 12px;
+  color: #5B6366;
+  text-align: center;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--ef-amarillo); outline-offset: 2px; }

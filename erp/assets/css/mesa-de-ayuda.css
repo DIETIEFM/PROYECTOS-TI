@@ -1,9 +1,5 @@
 /* Excellence Freights ERP — Mesa de ayuda */
 
-.migas { margin-bottom: 16px; font-size: 14px; color: var(--ef-gris); }
-.migas a { color: var(--ef-azul); font-weight: 700; text-decoration: none; }
-.migas a:hover { text-decoration: underline; }
-
 .panel {
   background: var(--ef-blanco);
   border: 1px solid var(--ef-gris-20);

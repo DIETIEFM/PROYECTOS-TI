@@ -1,0 +1,4 @@
+# Listas de usuarios y contraseñas: nunca al repositorio
+*.xlsx
+*.xls
+*.csv

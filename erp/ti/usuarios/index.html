@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usuarios y accesos · ERP · Excellence Freights</title>
+  <link rel="icon" href="../../../identidad-corporativa/logos/excellence-freights-simbolo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;900&family=Montserrat:wght@400;700&display=swap">
+  <link rel="stylesheet" href="../../../identidad-corporativa/tokens/brand.css">
+  <link rel="stylesheet" href="../../assets/css/erp.css">
+</head>
+<body data-base="../../" data-area="ti" data-titulo="Usuarios y accesos">
+  <main>
+    <nav class="migas" aria-label="Ruta"><a href="../index.html">TI</a> / Usuarios y accesos</nav>
+    <p class="etiqueta">TI · Administración</p>
+    <h1>Usuarios y accesos</h1>
+    <p class="intro">Usuarios que pueden entrar al ERP y el área a la que tiene acceso cada uno. Los usuarios de TI son administradores y ven todas las áreas. La Mesa de ayuda está disponible para todos.</p>
+
+    <div class="tabla-envoltura">
+      <table class="tabla">
+        <thead><tr><th>Usuario</th><th>Área con acceso</th><th>Rol</th><th>Contraseña</th><th>Último acceso</th><th></th></tr></thead>
+        <tbody id="usuarios"></tbody>
+      </table>
+    </div>
+    <p class="nota" id="mensaje" role="status"></p>
+
+    <section class="panel-info">
+      <h2>Cómo agregar o quitar usuarios</h2>
+      <ol>
+        <li>Edita el Excel de control de acceso (columnas <strong>Modulo</strong>, <strong>Usuario</strong>, <strong>Password</strong>).</li>
+        <li>Ejecuta <code>python3 herramientas/generar_usuarios.py ruta/usuarios.xlsx</code> desde la carpeta del proyecto.</li>
+        <li>Se actualiza <code>erp/assets/js/usuarios.js</code> con las contraseñas cifradas. El Excel no se sube al repositorio.</li>
+      </ol>
+      <p><strong>Versión de prueba:</strong> el estado de las contraseñas que ves aquí y el botón "Restablecer" aplican solo a este navegador, porque todavía no hay un servidor central.</p>
+    </section>
+  </main>
+  <script src="../../assets/js/usuarios.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/menu.js"></script>
+  <script>
+    (() => {
+      const sesion = AUTH.obtenerSesion();
+      if (!sesion || sesion.rol !== "admin") return;
+      const nombreArea = (id) => (AREAS.find((a) => a.id === id) || { nombre: id }).nombre;
+      const fecha = (iso) => iso ? new Date(iso).toLocaleString("es-MX", { dateStyle: "short", timeStyle: "short" }) : "—";
+      const cuerpo = document.getElementById("usuarios");
+
+      function render() {
+        cuerpo.replaceChildren(...AUTH.usuarios().map((u) => {
+          const estado = AUTH.estadoUsuario(u);
+          const fila = document.createElement("tr");
+          const celdas = [
+            u.usuario,
+            u.rol === "admin" ? "Todas las áreas" : nombreArea(u.area),
+            u.rol === "admin" ? "Administrador" : "Usuario",
+            estado.temporal ? "Temporal (pendiente de cambio)" : `Cambiada el ${fecha(estado.cambiada)}`,
+            fecha(estado.ultimoAcceso),
+          ];
+          celdas.forEach((texto, i) => {
+            const td = document.createElement("td");
+            td.textContent = texto;
+            if (i === 3) td.className = estado.temporal ? "estado-pendiente" : "estado-ok";
+            fila.append(td);
+          });
+          const td = document.createElement("td");
+          if (!estado.temporal && u.usuario !== sesion.usuario) {
+            const boton = document.createElement("button");
+            boton.type = "button";
+            boton.className = "boton-tabla";
+            boton.textContent = "Restablecer";
+            boton.addEventListener("click", () => {
+              if (!confirm(`¿Restablecer la contraseña de ${u.usuario}? Volverá a su contraseña temporal y deberá cambiarla al entrar.`)) return;
+              AUTH.restablecer(u.usuario);
+              document.getElementById("mensaje").textContent = `Contraseña de ${u.usuario} restablecida.`;
+              render();
+            });
+            td.append(boton);
+          }
+          fila.append(td);
+          return fila;
+        }));
+      }
+      render();
+    })();
+  </script>
+</body>
+</html>

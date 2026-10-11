@@ -95,6 +95,11 @@ const datosPrevios = leer(CLAVE_DATOS, {});
   if (datosPrevios[campo]) form.elements[campo].value = datosPrevios[campo];
 });
 
+// Usuario que inició sesión: su área se propone por defecto y su usuario va en el reporte.
+const sesion = AUTH.obtenerSesion();
+const areaSesion = sesion && AREAS.find((a) => a.id === sesion.area);
+if (areaSesion && !form.elements.area.value) form.elements.area.value = areaSesion.nombre;
+
 // ---------- Envío ----------
 function generarFolio(fecha) {
   const p = (n) => String(n).padStart(2, "0");
@@ -115,7 +120,7 @@ function textoReporte(r) {
     "Descripción:",
     r.descripcion,
     "",
-    `Reporta: ${r.nombre}`,
+    `Reporta: ${r.nombre}${r.usuario ? ` (usuario ERP: ${r.usuario})` : ""}`,
     `Área: ${r.area}`,
     `Contacto: ${r.contacto}`,
     `Ubicación: ${r.ubicacion || "—"}`,
@@ -146,6 +151,7 @@ form.addEventListener("submit", (evento) => {
     area: d.area,
     contacto: d.contacto.trim(),
     ubicacion: d.ubicacion.trim(),
+    usuario: sesion ? sesion.usuario : "",
   };
 
   guardar(CLAVE_DATOS, { nombre: reporte.nombre, area: reporte.area, contacto: reporte.contacto, ubicacion: reporte.ubicacion });

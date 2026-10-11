@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cambiar contraseña · ERP · Excellence Freights</title>
+  <link rel="icon" href="../identidad-corporativa/logos/excellence-freights-simbolo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;900&family=Montserrat:wght@400;700&display=swap">
+  <link rel="stylesheet" href="../identidad-corporativa/tokens/brand.css">
+  <link rel="stylesheet" href="assets/css/acceso.css">
+</head>
+<body class="acceso">
+  <div class="acceso-marca">
+    <img src="../identidad-corporativa/logos/excellence-freights-logo-negativo.png" alt="Excellence Freights">
+    <span>ERP</span>
+  </div>
+  <main class="acceso-tarjeta">
+    <p class="etiqueta" id="saludo"></p>
+    <h1>Cambiar contraseña</h1>
+    <p class="intro" id="motivo"></p>
+    <form id="form-cambio" novalidate>
+      <label class="campo">
+        <span id="etiqueta-actual">Contraseña actual</span>
+        <input name="actual" type="password" autocomplete="current-password" required>
+      </label>
+      <label class="campo">
+        <span>Nueva contraseña</span>
+        <input name="nueva" type="password" autocomplete="new-password" required>
+      </label>
+      <ul class="requisitos" aria-live="polite">
+        <li data-req="largo">Al menos 8 caracteres</li>
+        <li data-req="letra">Al menos una letra</li>
+        <li data-req="numero">Al menos un número</li>
+      </ul>
+      <label class="campo">
+        <span>Confirma la nueva contraseña</span>
+        <input name="confirmar" type="password" autocomplete="new-password" required>
+      </label>
+      <p class="error" id="error" role="alert" hidden></p>
+      <button class="boton" type="submit">Guardar contraseña</button>
+      <a class="enlace" id="cancelar" href="index.html" hidden>Cancelar</a>
+    </form>
+  </main>
+  <script src="assets/js/usuarios.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script>
+    const sesion = AUTH.obtenerSesion();
+    if (!sesion) location.replace("login.html");
+    else {
+      document.getElementById("saludo").textContent = `Hola, ${sesion.usuario}`;
+      if (sesion.debeCambiar) {
+        document.getElementById("motivo").textContent =
+          "Por seguridad, antes de continuar debes cambiar la contraseña temporal que te asignó TI.";
+        document.getElementById("etiqueta-actual").textContent = "Contraseña temporal";
+      } else {
+        document.getElementById("cancelar").hidden = false;
+      }
+    }
+
+    const form = document.getElementById("form-cambio");
+    const error = document.getElementById("error");
+    const reglas = {
+      largo: (p) => p.length >= 8,
+      letra: (p) => /[A-Za-zÁÉÍÓÚÑáéíóúñ]/.test(p),
+      numero: (p) => /\d/.test(p),
+    };
+    form.elements.nueva.addEventListener("input", (e) => {
+      document.querySelectorAll(".requisitos li").forEach((li) =>
+        li.classList.toggle("cumple", reglas[li.dataset.req](e.target.value)));
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const { actual, nueva, confirmar } = form.elements;
+      const mostrar = (msg) => { error.textContent = msg; error.hidden = false; };
+      if (!actual.value || !nueva.value) return mostrar("Llena todos los campos.");
+      if (nueva.value !== confirmar.value) return mostrar("La confirmación no coincide con la nueva contraseña.");
+      const boton = form.querySelector("button");
+      boton.disabled = true;
+      boton.textContent = "Guardando…";
+      const r = await AUTH.cambiarContrasena(actual.value, nueva.value);
+      if (r.ok) {
+        location.replace("index.html");
+        return;
+      }
+      if (!AUTH.obtenerSesion()) location.replace("login.html");
+      mostrar(r.error);
+      boton.disabled = false;
+      boton.textContent = "Guardar contraseña";
+    });
+  </script>
+</body>
+</html>

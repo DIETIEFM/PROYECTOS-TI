@@ -83,7 +83,11 @@ const AREAS = [
         href: "mesa-de-ayuda/index.html",
       },
       { nombre: "Inventario de equipos", descripcion: "Computadoras, impresoras y su asignación." },
-      { nombre: "Usuarios y accesos", descripcion: "Altas, bajas y contraseñas de sistemas." },
+      {
+        nombre: "Usuarios y accesos",
+        descripcion: "Usuarios del ERP, sus áreas y restablecimiento de contraseñas.",
+        href: "usuarios/index.html",
+      },
       { nombre: "Licencias y software", descripcion: "Control de licencias y vencimientos." },
     ],
   },
@@ -99,10 +103,20 @@ const ICONOS = {
   monitor: '<rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
   menu: '<path d="M3 6h18M3 12h18M3 18h18"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  headset: '<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="2" y="14" width="5" height="6" rx="1.5"/><rect x="17" y="14" width="5" height="6" rx="1.5"/>',
+  lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  salir: '<path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3"/>',
 };
+
+const MESA_AYUDA = { id: "mesa-de-ayuda", nombre: "Mesa de ayuda", icono: "headset", ruta: "ti/mesa-de-ayuda/index.html" };
 
 function icono(nombre) {
   return `<svg class="icono" viewBox="0 0 24 24" aria-hidden="true">${ICONOS[nombre]}</svg>`;
+}
+
+function escapar(texto) {
+  return String(texto).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 }
 
 function renderLayout() {
@@ -111,13 +125,28 @@ function renderLayout() {
   const areaActual = body.dataset.area || "";
   const area = AREAS.find((a) => a.id === areaActual);
 
-  const enlaces = [{ id: "", nombre: "Inicio", icono: "home", href: `${base}index.html` }]
-    .concat(AREAS.map((a) => ({ ...a, href: `${base}${a.id}/index.html` })))
-    .map((a) => `
-      <a class="menu-enlace${a.id === areaActual ? " activo" : ""}" href="${a.href}"${a.id === areaActual ? ' aria-current="page"' : ""}>
-        ${icono(a.icono)}<span>${a.nombre}</span>
-      </a>`)
-    .join("");
+  // ---------- Control de acceso ----------
+  const sesion = AUTH.obtenerSesion();
+  if (!sesion) {
+    location.replace(`${base}login.html`);
+    return;
+  }
+  if (sesion.debeCambiar) {
+    location.replace(`${base}cambiar-contrasena.html`);
+    return;
+  }
+  const paraTodos = body.dataset.acceso === "todos";
+  const autorizado = paraTodos || !area || AUTH.puedeVerArea(sesion, area.id);
+  const areasVisibles = AREAS.filter((a) => AUTH.puedeVerArea(sesion, a.id));
+  const areaUsuario = AREAS.find((a) => a.id === sesion.area);
+  const enMesa = body.dataset.titulo === MESA_AYUDA.nombre;
+
+  const enlace = (id, nombre, iconoNombre, href, activo) => `
+      <a class="menu-enlace${activo ? " activo" : ""}" href="${href}"${activo ? ' aria-current="page"' : ""}>
+        ${icono(iconoNombre)}<span>${nombre}</span>
+      </a>`;
+  const enlaces = enlace("", "Inicio", "home", `${base}index.html`, !areaActual)
+    + areasVisibles.map((a) => enlace(a.id, a.nombre, a.icono, `${base}${a.id}/index.html`, a.id === areaActual && !enMesa)).join("");
 
   body.insertAdjacentHTML("afterbegin", `
     <header class="encabezado">
@@ -126,18 +155,36 @@ function renderLayout() {
         <img src="${base}../identidad-corporativa/logos/excellence-freights-logo-negativo.png" alt="Excellence Freights">
       </a>
       <span class="encabezado-titulo">ERP</span>
+      <div class="usuario">
+        <span class="usuario-datos">
+          ${icono("user")}
+          <span><strong>${escapar(sesion.usuario)}</strong><small>${escapar(areaUsuario ? areaUsuario.nombre : sesion.area)}${sesion.rol === "admin" ? " · Administrador" : ""}</small></span>
+        </span>
+        <a class="usuario-accion" href="${base}cambiar-contrasena.html" title="Cambiar contraseña">${icono("lock")}<span>Contraseña</span></a>
+        <button class="usuario-accion" type="button" id="cerrar-sesion" title="Cerrar sesión">${icono("salir")}<span>Salir</span></button>
+      </div>
     </header>
     <nav class="menu-lateral" id="menu-lateral" aria-label="Menú principal">
       <p class="menu-etiqueta">Áreas</p>
       ${enlaces}
+      <p class="menu-etiqueta menu-etiqueta-separada">Soporte</p>
+      ${enlace(MESA_AYUDA.id, MESA_AYUDA.nombre, MESA_AYUDA.icono, `${base}${MESA_AYUDA.ruta}`, enMesa)}
     </nav>
   `);
 
   // Las páginas con contenido propio (p. ej. Mesa de ayuda) traen su <main> lleno.
   const main = document.querySelector("main");
-  if (!main.children.length) {
-    main.innerHTML = area ? renderArea(area, base) : renderInicio(base);
+  if (!autorizado) {
+    main.innerHTML = renderSinAcceso(base);
+  } else if (!main.children.length) {
+    main.innerHTML = area ? renderArea(area, base) : renderInicio(base, areasVisibles);
   }
+  body.classList.add("autorizado");
+
+  document.getElementById("cerrar-sesion").addEventListener("click", () => {
+    AUTH.cerrarSesion();
+    location.replace(`${base}login.html`);
+  });
 
   const boton = document.querySelector(".boton-menu");
   boton.addEventListener("click", () => {
@@ -153,20 +200,31 @@ function renderLayout() {
   document.title = `${titulo ? titulo + " · " : ""}ERP · Excellence Freights`;
 }
 
-function renderInicio(base) {
-  const tarjetas = AREAS.map((a) => `
-    <a class="tarjeta" href="${base}${a.id}/index.html">
-      <span class="tarjeta-icono">${icono(a.icono)}</span>
-      <h2>${a.nombre}</h2>
-      <p>${a.descripcion}</p>
+function renderInicio(base, areasVisibles) {
+  const tarjeta = (href, iconoNombre, nombre, descripcion) => `
+    <a class="tarjeta" href="${href}">
+      <span class="tarjeta-icono">${icono(iconoNombre)}</span>
+      <h2>${nombre}</h2>
+      <p>${descripcion}</p>
       <span class="tarjeta-accion">Entrar ${icono("arrow")}</span>
-    </a>`).join("");
+    </a>`;
+  const tarjetas = areasVisibles.map((a) => tarjeta(`${base}${a.id}/index.html`, a.icono, a.nombre, a.descripcion)).join("")
+    + (areasVisibles.some((a) => a.id === "ti") ? ""
+      : tarjeta(`${base}${MESA_AYUDA.ruta}`, MESA_AYUDA.icono, MESA_AYUDA.nombre, "Reporta fallas en sistemas, impresoras o equipos de cómputo."));
 
   return `
     <p class="etiqueta">Excellence Freights</p>
     <h1>Sistema ERP</h1>
     <p class="intro">Selecciona el área con la que quieres trabajar.</p>
     <div class="rejilla">${tarjetas}</div>`;
+}
+
+function renderSinAcceso(base) {
+  return `
+    <p class="etiqueta">Acceso restringido</p>
+    <h1>Sin permiso</h1>
+    <p class="intro">Tu usuario no tiene acceso a esta área. Si lo necesitas, solicítalo a TI.</p>
+    <a class="tarjeta-accion" href="${base}index.html">Volver al inicio ${icono("arrow")}</a>`;
 }
 
 function renderArea(area, base) {
