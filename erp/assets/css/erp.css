@@ -1,0 +1,208 @@
+/* Excellence Freights ERP — estilos del menú
+   Colores y fuentes vienen de identidad-corporativa/tokens/brand.css (variables --ef-*). */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--ef-font-primaria);
+  color: #1F2A30;
+  background: #F5F7F8;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 64px 1fr;
+  grid-template-areas: "encabezado encabezado" "menu contenido";
+  min-height: 100vh;
+}
+
+/* ---------- Encabezado ---------- */
+.encabezado {
+  grid-area: encabezado;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  background: var(--ef-azul);
+  color: var(--ef-blanco);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.encabezado-logo { display: flex; }
+.encabezado-logo img { height: 36px; display: block; }
+.encabezado-titulo {
+  font-family: var(--ef-font-secundaria);
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  color: var(--ef-amarillo);
+  border-left: 1px solid var(--ef-azul-60);
+  padding-left: 16px;
+}
+.boton-menu {
+  display: none;
+  background: none;
+  border: 0;
+  color: var(--ef-blanco);
+  padding: 6px;
+  cursor: pointer;
+}
+
+/* ---------- Menú lateral ---------- */
+.menu-lateral {
+  grid-area: menu;
+  background: var(--ef-blanco);
+  border-right: 1px solid var(--ef-gris-20);
+  padding: 24px 12px;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+.menu-etiqueta {
+  margin: 0 12px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ef-gris);
+}
+.menu-enlace {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  color: var(--ef-azul);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  border-left: 4px solid transparent;
+}
+.menu-enlace:hover { background: var(--ef-azul-20); }
+.menu-enlace.activo {
+  background: var(--ef-azul);
+  color: var(--ef-blanco);
+  border-left-color: var(--ef-amarillo);
+}
+
+/* ---------- Contenido ---------- */
+main {
+  grid-area: contenido;
+  padding: 40px 48px;
+  max-width: 1200px;
+  width: 100%;
+}
+.etiqueta {
+  margin: 0;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ef-amarillo);
+}
+h1 {
+  margin: 4px 0 8px;
+  font-size: 40px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ef-azul);
+}
+.intro { margin: 0 0 32px; color: #4A5A62; font-size: 16px; }
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  background: var(--ef-blanco);
+  border: 1px solid var(--ef-gris-20);
+  border-top: 4px solid var(--ef-azul);
+  border-radius: 10px;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+a.tarjeta:hover, a.tarjeta:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(12, 91, 114, 0.15);
+  border-top-color: var(--ef-amarillo);
+}
+.tarjeta h2 {
+  margin: 0;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: var(--ef-azul);
+}
+.tarjeta p { margin: 0; color: #4A5A62; font-size: 14px; line-height: 1.45; flex: 1; }
+.tarjeta-icono {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--ef-amarillo-20);
+  color: var(--ef-azul);
+  margin-bottom: 8px;
+}
+.tarjeta-icono .icono { width: 26px; height: 26px; }
+.tarjeta-accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ef-azul);
+}
+.tarjeta-accion .icono { width: 16px; height: 16px; }
+.tarjeta-modulo { border-top-color: var(--ef-azul-40); }
+.estado {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--ef-gris-20);
+  color: #5B6366;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.icono {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+a:focus-visible, button:focus-visible { outline: 3px solid var(--ef-amarillo); outline-offset: 2px; }
+
+/* ---------- Móvil ---------- */
+@media (max-width: 800px) {
+  body { grid-template-columns: 1fr; grid-template-areas: "encabezado" "contenido"; }
+  .encabezado { padding: 0 16px; }
+  .encabezado-logo img { height: 30px; }
+  .boton-menu { display: flex; }
+  .menu-lateral {
+    position: fixed;
+    left: 0;
+    width: 260px;
+    z-index: 15;
+    transform: translateX(-100%);
+    transition: transform 0.2s;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  }
+  .menu-abierto .menu-lateral { transform: none; }
+  main { padding: 24px 16px; }
+  h1 { font-size: 30px; }
+}
