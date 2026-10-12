@@ -62,13 +62,12 @@ const AREAS = [
   {
     id: "gerencial",
     nombre: "Gerencial",
-    descripcion: "Indicadores, reportes y administración.",
+    descripcion: "Indicadores, rentabilidad y reportes.",
     icono: "chart",
     modulos: [
       { nombre: "Tablero de indicadores", descripcion: "KPIs de operación, finanzas y flotilla." },
       { nombre: "Rentabilidad", descripcion: "Utilidad por viaje, cliente y unidad." },
       { nombre: "Reportes", descripcion: "Reportes consolidados de todas las áreas." },
-      { nombre: "Usuarios y permisos", descripcion: "Accesos por área y por puesto." },
     ],
   },
   {

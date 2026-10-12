@@ -28,7 +28,11 @@ python3 -m http.server 8000
 Al abrir cualquier página del ERP se pide **usuario y contraseña** (`erp/login.html`).
 
 - **Primer acceso:** el usuario entra con la contraseña temporal que le dio TI y el sistema lo obliga a cambiarla antes de continuar. La nueva debe tener al menos 8 caracteres, una letra y un número.
-- **Permisos:** cada usuario ve solo el área asignada en el Excel. Los usuarios de **TI son administradores**: ven todas las áreas y la pantalla *TI → Usuarios y accesos*. La **Mesa de ayuda** está disponible para todos.
+- **Permisos:** se toman de la columna `Modulo` del Excel, que corresponde a los encabezados de las áreas del menú.
+  - Los usuarios del grupo **TI son administradores**: entran a todas las áreas y módulos, incluida *TI → Usuarios y accesos*, que es el único lugar donde se administran los accesos.
+  - Los demás usuarios solo ven y entran al área de su encabezado y a los módulos dentro de ella. Si abren otra área, incluso escribiendo la dirección, ven "Sin permiso".
+  - La **Mesa de ayuda** está disponible para todos.
+  - Todo módulo nuevo hereda el permiso del área donde se crea (atributo `data-area` de su página).
 - **Seguridad:** tras 5 intentos fallidos el usuario se bloquea 5 minutos. La sesión se cierra sola después de 30 minutos sin actividad o con el botón **Salir**. Cualquier usuario puede cambiar su contraseña desde el botón **Contraseña** del encabezado.
 - **Usuarios:** salen del Excel de control de acceso (columnas `Modulo`, `Usuario`, `Password`). Para actualizarlos:
 
