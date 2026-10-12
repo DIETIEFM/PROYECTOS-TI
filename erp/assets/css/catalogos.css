@@ -1,0 +1,151 @@
+/* Excellence Freights ERP — catálogos (lista + formulario) */
+
+/* ---------- Pestañas ---------- */
+.pestanas {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--ef-gris-20);
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+.pestana {
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 12px 20px;
+  border: 0;
+  border-bottom: 4px solid transparent;
+  margin-bottom: -2px;
+  background: none;
+  color: var(--ef-azul-80);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pestana:hover { color: var(--ef-azul); background: var(--ef-azul-20); }
+.pestana[aria-selected="true"] { color: var(--ef-azul); border-bottom-color: var(--ef-amarillo); }
+
+/* ---------- Barra de herramientas ---------- */
+.catalogo-barra { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.catalogo-espacio { flex: 1; }
+.catalogo-buscar, .catalogo-filtro {
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--ef-gris-60);
+  border-radius: 8px;
+  background: var(--ef-blanco);
+}
+.catalogo-buscar { width: 280px; max-width: 100%; }
+.catalogo-buscar:focus, .catalogo-filtro:focus { outline: none; border-color: var(--ef-azul); box-shadow: 0 0 0 3px var(--ef-azul-20); }
+.catalogo-conteo { margin: 14px 0 10px; font-size: 14px; color: #5B6366; }
+
+.boton {
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 2px solid var(--ef-azul);
+  background: var(--ef-blanco);
+  color: var(--ef-azul);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.boton:hover { background: var(--ef-azul-20); }
+.boton-primario { background: var(--ef-azul); color: var(--ef-blanco); }
+.boton-primario:hover { background: var(--ef-azul-80); }
+
+/* ---------- Tabla ---------- */
+.catalogo-tabla th { padding: 0; }
+.orden {
+  all: unset;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.orden:focus-visible { outline: 3px solid var(--ef-amarillo); outline-offset: -3px; }
+th[aria-sort="ascending"] .orden::after { content: " ▲"; color: var(--ef-amarillo); }
+th[aria-sort="descending"] .orden::after { content: " ▼"; color: var(--ef-amarillo); }
+.catalogo-tabla tbody tr:hover { background: var(--ef-azul-20); }
+.celda-clave { font-weight: 700; color: var(--ef-azul); }
+.col-acciones { text-align: right; width: 1%; white-space: nowrap; }
+/* Acciones siempre visibles aunque la tabla se desplace a lo ancho */
+.catalogo-tabla .col-acciones { position: sticky; right: 0; }
+.catalogo-tabla td.col-acciones { background: var(--ef-blanco); box-shadow: -8px 0 8px -8px rgba(0, 0, 0, 0.2); }
+.catalogo-tabla th.col-acciones { background: var(--ef-azul); }
+.catalogo-tabla tbody tr:hover td.col-acciones { background: var(--ef-azul-20); }
+.col-acciones .boton-tabla + .boton-tabla { margin-left: 6px; }
+.boton-tabla-peligro { border-color: var(--ef-gris-60); color: #5B6366; }
+.boton-tabla-peligro:hover { border-color: var(--ef-rojo); color: var(--ef-rojo); background: var(--ef-rojo-20); }
+.solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.estatus::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; background: var(--ef-gris-60); }
+.estatus-disponible::before, .estatus-activo::before, .estatus-activa::before { background: var(--ef-turquesa); }
+.estatus-en-viaje::before { background: var(--ef-azul); }
+.estatus-en-mantenimiento::before { background: var(--ef-amarillo); }
+.estatus-fuera-de-servicio::before { background: var(--ef-rojo); }
+
+/* ---------- Formulario (ventana) ---------- */
+.catalogo-dialogo {
+  width: min(760px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  border: 0;
+  border-top: 4px solid var(--ef-amarillo);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+.catalogo-dialogo::backdrop { background: rgba(12, 91, 114, 0.45); }
+.catalogo-form { padding: 28px; }
+.catalogo-form h2 { margin: 0 0 20px; font-size: 22px; text-transform: uppercase; color: var(--ef-azul); }
+.campos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+  margin-bottom: 18px;
+}
+.campo { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700; color: #33434B; }
+.campo-ancho { grid-column: 1 / -1; }
+.campo input, .campo select, .campo textarea {
+  font: inherit;
+  font-weight: 400;
+  font-size: 15px;
+  padding: 9px 11px;
+  border: 1px solid var(--ef-gris-60);
+  border-radius: 8px;
+  background: var(--ef-blanco);
+  color: #1F2A30;
+}
+.campo textarea { resize: vertical; }
+.campo input:focus, .campo select:focus, .campo textarea:focus { outline: none; border-color: var(--ef-azul); box-shadow: 0 0 0 3px var(--ef-azul-20); }
+.catalogo-form .error {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--ef-rojo-20);
+  border-left: 4px solid var(--ef-rojo);
+  font-size: 14px;
+  font-weight: 700;
+}
+.catalogo-form .acciones { display: flex; gap: 12px; }
+
+.aviso-local {
+  margin: 0 0 20px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--ef-amarillo-20);
+  border-left: 4px solid var(--ef-amarillo);
+  font-size: 13px;
+  line-height: 1.5;
+  color: #33434B;
+}
+
+@media (max-width: 800px) {
+  .catalogo-buscar { width: 100%; }
+  .catalogo-espacio { display: none; }
+  .catalogo-barra .boton { flex: 1 1 auto; }
+  .campos { grid-template-columns: 1fr; }
+  .catalogo-form { padding: 20px 16px; }
+}

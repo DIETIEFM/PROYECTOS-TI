@@ -18,3 +18,7 @@ Toda interfaz, reporte, documento o presentación debe seguir la guía en `ident
 - Toda página nueva del ERP debe cargar `usuarios.js`, `auth.js` y `menu.js` (en ese orden) para quedar protegida por el inicio de sesión. Declara su área con `data-area`, o usa `data-acceso="todos"` si es para todos los usuarios.
 - Nunca subas al repositorio contraseñas en texto ni los Excel de usuarios (`*.xlsx` está en `.gitignore`). Los usuarios se generan con `herramientas/generar_usuarios.py`.
 - El control de acceso actual es un prototipo del lado del navegador; no lo presentes como seguridad real.
+
+## Catálogos
+
+- Para un catálogo nuevo (lista con alta, edición y baja), no hagas una pantalla desde cero: define sus campos en un archivo `catalogos-<area>.js` (ver `erp/assets/js/catalogos-operaciones.js`) y usa `<div class="catalogo" data-catalogos="...">` con `catalogos.js`.

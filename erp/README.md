@@ -52,6 +52,9 @@ erp/
 ├── cambiar-contrasena.html Cambio de contraseña (obligatorio en el primer acceso)
 ├── index.html              Inicio: tarjetas de las áreas permitidas
 ├── operaciones/index.html  Página de cada área (lista de módulos)
+├── operaciones/unidades/   Tractocamiones, tanques y dollys
+├── operaciones/productos-quimicos/
+├── operaciones/rutas/
 ├── finanzas/index.html
 ├── mantenimiento/index.html
 ├── compras/index.html
@@ -63,9 +66,12 @@ erp/
     ├── css/erp.css         Estilos (usa variables --ef-* de la identidad corporativa)
     ├── css/mesa-de-ayuda.css
     ├── css/acceso.css      Pantallas de inicio de sesión y contraseña
+    ├── css/catalogos.css   Listas y formularios de catálogos
     ├── js/usuarios.js      Usuarios con contraseñas cifradas (generado desde el Excel)
     ├── js/auth.js          Control de acceso: sesión, contraseñas y permisos
     ├── js/menu.js          Configuración del menú (AREAS) y generación de páginas
+    ├── js/catalogos.js     Pantalla genérica de catálogos (lista, formulario, Excel)
+    ├── js/catalogos-operaciones.js  Campos de los catálogos de Operaciones
     └── js/mesa-de-ayuda.js Formulario de reportes
 ```
 
@@ -77,6 +83,30 @@ Todo el menú sale del arreglo `AREAS` en `assets/js/menu.js`: encabezado, barra
 - **Agregar un área nueva:** añade un objeto a `AREAS` y crea `erp/<id>/index.html` copiando el de otra área y cambiando `data-area="<id>"`.
 
 Los módulos sin página aparecen como **"Próximamente"**; son una propuesta inicial que se irá desarrollando uno por uno.
+
+## Operaciones: catálogos
+
+Ruta: **Operaciones** → **Unidades** (pestañas *Tractocamiones*, *Tanques* y *Dollys*), **Productos químicos** y **Rutas**.
+
+Todos los catálogos funcionan igual:
+
+- **Agregar / Editar / Eliminar** registros con un formulario. Los campos con * son obligatorios.
+- **No se repite la clave:** número económico (unidades), nombre comercial (productos) o clave de ruta.
+- **Buscar** en todos los campos, **filtrar** por estatus o clase de riesgo, y **ordenar** dando clic en el encabezado de cada columna.
+- **Descargar Excel:** baja un archivo CSV que se abre en Excel. Sirve como respaldo y como plantilla.
+- **Importar:** carga un CSV guardado desde Excel (separado por comas o punto y coma) con los mismos encabezados. Agrega los registros nuevos y actualiza los existentes según la clave. Las celdas vacías no borran datos.
+
+| Catálogo | Clave | Datos principales |
+|---|---|---|
+| Tractocamiones | Número económico | Placas, marca, modelo, año, VIN, motor, permiso SCT, seguro y vencimiento, operador, estatus |
+| Tanques | Número económico | Placas, tipo, capacidad, compartimentos, material, recubrimiento, prueba hidrostática, productos compatibles, estatus |
+| Dollys | Número económico | Placas, marca, año, serie, ejes, estatus |
+| Productos químicos | Nombre comercial | Nombre químico, número ONU, clase de riesgo, grupo de embalaje, clave SAT, densidad, unidad, material de tanque, hoja de seguridad, precauciones |
+| Rutas | Clave de ruta | Origen, destino, cliente, distancia, tiempo, casetas, combustible, vía, restricciones para materiales peligrosos |
+
+Los campos se definen en `assets/js/catalogos-operaciones.js`; para agregar o quitar un campo basta editar esa lista. La pantalla es la misma para todos (`assets/js/catalogos.js`), así que futuros catálogos (clientes, operadores, proveedores…) solo necesitan su definición.
+
+> **Versión de prueba:** los registros se guardan en el navegador de cada computadora. Lo que captures en una no aparece en otra. Usa **Descargar Excel** para respaldar. Con un servidor central, todos verán la misma información.
 
 ## Mesa de ayuda (TI)
 

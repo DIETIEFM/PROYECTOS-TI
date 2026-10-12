@@ -222,7 +222,7 @@ body:not(.autorizado) main { visibility: hidden; }
 .migas a:hover { text-decoration: underline; }
 .nota { margin: 12px 0 0; font-size: 13px; color: #5B6366; }
 
-.tabla-envoltura { overflow-x: auto; }
+.tabla-envoltura { overflow-x: auto; position: relative; }
 .tabla {
   width: 100%;
   border-collapse: collapse;
