@@ -1,6 +1,6 @@
 # ERP Excellence Freights — Sitio / menú principal
 
-Primer proyecto del repositorio: sitio web que funciona como menú de entrada al ERP, con las áreas **Operaciones, Finanzas, Mantenimiento, Compras, Gestoría, Servicio Médico, Monitoreo, Servicio al Cliente, Gerencial y TI**.
+Primer proyecto del repositorio: sitio web que funciona como menú de entrada al ERP, con las áreas **Operaciones, Torre de Control, Finanzas, Mantenimiento, Almacén de Refacciones, Control de Combustible, Compras, Recursos Humanos, Gestoría, Servicio Médico, Monitoreo, Servicio al Cliente, Gerencial y TI**.
 
 ## Cómo verlo en tu computadora
 
@@ -34,7 +34,7 @@ Al abrir cualquier página del ERP se pide **usuario y contraseña** (`erp/login
   - La **Mesa de ayuda** está disponible para todos.
   - Todo módulo nuevo hereda el permiso del área donde se crea (atributo `data-area` de su página).
 - **Seguridad:** tras 5 intentos fallidos el usuario se bloquea 5 minutos. La sesión se cierra sola después de 30 minutos sin actividad o con el botón **Salir**. Cualquier usuario puede cambiar su contraseña desde el botón **Contraseña** del encabezado.
-- **Usuarios:** salen del Excel de control de acceso (columnas `Modulo`, `Usuario`, `Password`). Valores válidos en `Modulo` (con o sin acentos, en mayúsculas o minúsculas): `TI`, `OPERACIONES`, `FINANZAS`, `MANTENIMIENTO`, `COMPRAS`, `GESTORIA`, `SERVICIO MEDICO`, `MONITOREO`, `SERVICIO AL CLIENTE`, `GERENCIAL`. Para actualizarlos:
+- **Usuarios:** salen del Excel de control de acceso (columnas `Modulo`, `Usuario`, `Password`). Valores válidos en `Modulo` (con o sin acentos, en mayúsculas o minúsculas): `TI`, `OPERACIONES`, `TORRE DE CONTROL`, `FINANZAS`, `MANTENIMIENTO`, `ALMACEN REFACCIONES` (también `ALMACEN DE REFACCIONES`), `CONTROL DE COMBUSTIBLE` (también `COMBUSTIBLE`), `COMPRAS`, `RECURSOS HUMANOS` (también `RH`), `GESTORIA`, `SERVICIO MEDICO`, `MONITOREO`, `SERVICIO AL CLIENTE`, `GERENCIAL`. Para actualizarlos:
 
   ```bash
   python3 herramientas/generar_usuarios.py ruta/usuarios.xlsx
@@ -55,7 +55,11 @@ erp/
 ├── operaciones/unidades/   Tractocamiones, tanques y dollys
 ├── operaciones/productos-quimicos/
 ├── operaciones/rutas/
+├── torre-de-control/index.html
 ├── finanzas/index.html
+├── almacen-refacciones/index.html
+├── control-de-combustible/index.html
+├── recursos-humanos/index.html
 ├── gestoria/index.html
 ├── servicio-medico/index.html
 ├── monitoreo/index.html

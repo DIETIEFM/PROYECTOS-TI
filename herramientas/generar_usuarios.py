@@ -22,6 +22,13 @@ ITERACIONES = 210_000
 AREAS = {
     "TI", "OPERACIONES", "FINANZAS", "MANTENIMIENTO", "COMPRAS", "GERENCIAL",
     "GESTORIA", "SERVICIO MEDICO", "MONITOREO", "SERVICIO AL CLIENTE",
+    "TORRE DE CONTROL", "ALMACEN REFACCIONES", "CONTROL DE COMBUSTIBLE", "RECURSOS HUMANOS",
+}
+SINONIMOS = {
+    "ALMACEN DE REFACCIONES": "ALMACEN REFACCIONES",
+    "CONTROL COMBUSTIBLE": "CONTROL DE COMBUSTIBLE",
+    "COMBUSTIBLE": "CONTROL DE COMBUSTIBLE",
+    "RH": "RECURSOS HUMANOS",
 }
 AREAS_ADMIN = {"TI"}  # administran el ERP: ven todas las áreas y la gestión de usuarios
 SALIDA = Path(__file__).resolve().parent.parent / "erp" / "assets" / "js" / "usuarios.js"
@@ -29,7 +36,8 @@ SALIDA = Path(__file__).resolve().parent.parent / "erp" / "assets" / "js" / "usu
 
 def normalizar_area(texto) -> str:
     sin_acentos = unicodedata.normalize("NFD", str(texto or "")).encode("ascii", "ignore").decode()
-    return " ".join(sin_acentos.upper().split())
+    area = " ".join(sin_acentos.upper().split())
+    return SINONIMOS.get(area, area)
 
 
 def huella(password: str) -> dict:
