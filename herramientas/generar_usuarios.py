@@ -12,14 +12,24 @@ import hashlib
 import json
 import secrets
 import sys
+import unicodedata
 from pathlib import Path
 
 import openpyxl
 
 ITERACIONES = 210_000
-AREAS = {"TI", "OPERACIONES", "FINANZAS", "MANTENIMIENTO", "COMPRAS", "GERENCIAL"}
+# Encabezados de área válidos en la columna Modulo (sin importar acentos ni mayúsculas).
+AREAS = {
+    "TI", "OPERACIONES", "FINANZAS", "MANTENIMIENTO", "COMPRAS", "GERENCIAL",
+    "GESTORIA", "SERVICIO MEDICO", "MONITOREO", "SERVICIO AL CLIENTE",
+}
 AREAS_ADMIN = {"TI"}  # administran el ERP: ven todas las áreas y la gestión de usuarios
 SALIDA = Path(__file__).resolve().parent.parent / "erp" / "assets" / "js" / "usuarios.js"
+
+
+def normalizar_area(texto) -> str:
+    sin_acentos = unicodedata.normalize("NFD", str(texto or "")).encode("ascii", "ignore").decode()
+    return " ".join(sin_acentos.upper().split())
 
 
 def huella(password: str) -> dict:
@@ -45,7 +55,7 @@ def leer_excel(ruta: str) -> list[dict]:
         if usuario is None or str(usuario).strip() == "":
             continue
         usuario = str(usuario).strip().lower()
-        area = str(fila[col["modulo"]] or "").strip().upper()
+        area = normalizar_area(fila[col["modulo"]])
         password = fila[col["password"]]
         if area not in AREAS:
             sys.exit(f"Área desconocida '{area}' para el usuario {usuario}.")
@@ -58,7 +68,7 @@ def leer_excel(ruta: str) -> list[dict]:
             password = int(password)
         usuarios.append({
             "usuario": usuario,
-            "area": area.lower(),
+            "area": area.lower().replace(" ", "-"),  # id del área en el ERP, p. ej. servicio-medico
             "rol": "admin" if area in AREAS_ADMIN else "usuario",
             **huella(str(password).strip()),
         })
